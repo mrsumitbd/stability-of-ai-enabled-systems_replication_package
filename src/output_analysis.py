@@ -42,8 +42,6 @@ def project_wise_analysis(proj_df, config_var, metric):
         comp_df_OS['delta_size'] = [extract_cliffs_delta(sub_df_os.loc[sub_df_os['OS'] == 'Linux-Xenial'][metric], sub_df_os.loc[sub_df_os['OS'] == 'Linux-Xenial'][metric])[1],
                                    extract_cliffs_delta(sub_df_os.loc[sub_df_os['OS'] == 'Linux-Xenial'][metric], sub_df_os.loc[sub_df_os['OS'] == 'MacOS'][metric])[1],
                                    extract_cliffs_delta(sub_df_os.loc[sub_df_os['OS'] == 'Linux-Xenial'][metric], sub_df_os.loc[sub_df_os['OS'] == 'Windows'][metric])[1]]
-        comp_df_OS.to_csv(f"/Users/musfiqurrahman/Documents/variability_deltas/{proj_df['Project'].unique()[0]}_{config_var}_{metric}.csv", index=False)
-        #print(comp_df_OS)
         return comp_df_OS
 
     ### Dist
@@ -77,8 +75,6 @@ def project_wise_analysis(proj_df, config_var, metric):
                                    extract_cliffs_delta(sub_df_dist.loc[sub_df_dist['OS'] == 'Linux-Xenial'][metric], sub_df_dist.loc[sub_df_dist['OS'] == 'Linux-Bionic'][metric])[1],
                                    extract_cliffs_delta(sub_df_dist.loc[sub_df_dist['OS'] == 'Linux-Xenial'][metric], sub_df_dist.loc[sub_df_dist['OS'] == 'Linux-Focal'][metric])[1]]
 
-        comp_df_dist.to_csv(f"/Users/musfiqurrahman/Documents/variability_deltas/{proj_df['Project'].unique()[0]}_{config_var}_{metric}.csv", index=False)
-        #print(comp_df_dist)
         return comp_df_dist
 
 
@@ -105,8 +101,6 @@ def project_wise_analysis(proj_df, config_var, metric):
 
         comp_df_hw['delta_size'] = [extract_cliffs_delta(sub_df_hw.loc[sub_df_hw['Hardware'] == 'amd64'][metric], sub_df_hw.loc[sub_df_hw['Hardware'] == 'amd64'][metric])[1],
                                    extract_cliffs_delta(sub_df_hw.loc[sub_df_hw['Hardware'] == 'amd64'][metric], sub_df_hw.loc[sub_df_hw['Hardware'] == 'arm64'][metric])[1]]
-        comp_df_hw.to_csv(f"/Users/musfiqurrahman/Documents/variability_deltas/{proj_df['Project'].unique()[0]}_{config_var}_{metric}.csv", index=False)
-        #print(comp_df_hw)
         return comp_df_hw
 
     ### Python Versions
@@ -140,8 +134,6 @@ def project_wise_analysis(proj_df, config_var, metric):
         comp_df_py['delta_size'] = [extract_cliffs_delta(sub_df_py.loc[sub_df_py['Python'] == '3.7'][metric], sub_df_py.loc[sub_df_py['Python'] == '3.7'][metric])[1],
                                    extract_cliffs_delta(sub_df_py.loc[sub_df_py['Python'] == '3.7'][metric], sub_df_py.loc[sub_df_py['Python'] == '3.6'][metric])[1],
                                    extract_cliffs_delta(sub_df_py.loc[sub_df_py['Python'] == '3.7'][metric], sub_df_py.loc[sub_df_py['Python'] == '3.8'][metric])[1]]
-        comp_df_py.to_csv(f"/Users/musfiqurrahman/Documents/variability_deltas/{proj_df['Project'].unique()[0]}_{config_var}_{metric}.csv", index=False)
-        #print(comp_df_py)
         return comp_df_py
 
     else:
@@ -159,8 +151,6 @@ def add_credits(df):
 
     df['Processing_Time'] = df['Processing_Time']/60
     df['Expense'] = credit_list
-    #df['Credits'] = credit_list
-    #df['Expense'] = [100 * 0.0006 * c for c in df['Credits'].tolist()]
     return df
 
 
@@ -308,8 +298,6 @@ def generate_report_df(full_df):
 
             comp_df_OS = pd.DataFrame(sub_df_os.groupby('OS')[metric].mean())
 
-            #calculate_pct_change(comp_df_OS.loc['Linux-Xenial'][0], comp_df_OS.loc['MacOS'][0]),
-            #calculate_pct_change(comp_df_OS.loc['Linux-Xenial'][0], comp_df_OS.loc['Windows'][0])
 
             sub_df_dist = proj_df.loc[((proj_df['OS'] == 'Linux-Xenial') &
                                    (proj_df['Python'] == '3.7') &
@@ -320,8 +308,6 @@ def generate_report_df(full_df):
             comp_df_dist = pd.DataFrame(sub_df_dist.groupby('OS')[metric].mean())
 
 
-            # calculate_pct_change(comp_df_dist.loc['Linux-Xenial'][0], comp_df_dist.loc['Linux-Bionic'][0]),
-            # calculate_pct_change(comp_df_dist.loc['Linux-Xenial'][0], comp_df_dist.loc['Linux-Focal'][0]),
 
 
             sub_df_hw = proj_df.loc[((proj_df['OS'] == 'Linux-Xenial') &
@@ -332,7 +318,6 @@ def generate_report_df(full_df):
             comp_df_hw = pd.DataFrame(sub_df_hw.groupby('Hardware')[metric].mean())
 
 
-            # calculate_pct_change(comp_df_hw.loc['amd64'][0], comp_df_hw.loc['arm64'][0])
 
             sub_df_py = proj_df.loc[((proj_df['OS'] == 'Linux-Xenial') &
                                  (proj_df['Python'] == '3.7') &
@@ -343,8 +328,6 @@ def generate_report_df(full_df):
             comp_df_py = pd.DataFrame(sub_df_py.groupby('Python')[metric].mean())
 
 
-            # calculate_pct_change(comp_df_py.loc['3.7'][0], comp_df_py.loc['3.6'][0]),
-            # calculate_pct_change(comp_df_py.loc['3.7'][0], comp_df_py.loc['3.8'][0])
 
             df_row_list.append([project, metric,
                                 calculate_pct_change(comp_df_OS.loc['Linux-Xenial'][0], comp_df_OS.loc['MacOS'][0]),
@@ -362,7 +345,7 @@ def generate_report_df(full_df):
 if __name__ == '__main__':
     # following code combines all projects into one dataframe
     df_list = []
-    data_folder_path = 'output'
+    data_folder_path = 'data'
     for file in list_files(data_folder_path, all=False, extension='csv'):
         tmp_df = pd.read_csv(f'{data_folder_path}/{file}')
         df_list.append(tmp_df)
@@ -372,7 +355,7 @@ if __name__ == '__main__':
 
     df = add_credits(df)
 
-    df.to_csv('/Users/musfiqurrahman/Documents/full_df.csv')
+    df.to_csv('../full_df.csv')
     print("Generating report for OS:")
 
     print("\nwith respect to Score:")
