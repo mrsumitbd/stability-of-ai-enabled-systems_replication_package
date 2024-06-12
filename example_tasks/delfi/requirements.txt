@@ -1,0 +1,10 @@
+numpy<=1.20.3
+scipy
+https://github.com/Theano/Theano/archive/master.zip
+dill
+matplotlib
+tqdm
+ipython
+ipywidgets
+https://github.com/Lasagne/Lasagne/archive/master.zip
+git+https://github.com/mnonnenm/SNL_py3port

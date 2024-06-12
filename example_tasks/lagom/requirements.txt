@@ -1,0 +1,10 @@
+numpy 
+scipy
+cloudpickle
+pyyaml
+colorama>=0.4.1
+torch
+torchvision
+scikit-learn
+gym>=0.15.3, <0.15.4
+cma>=2.7.0

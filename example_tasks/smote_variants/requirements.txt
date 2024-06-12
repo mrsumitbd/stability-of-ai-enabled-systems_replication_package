@@ -1,0 +1,12 @@
+setuptools>=41.0.1
+joblib
+numpy
+pandas
+scikit-learn<=1.2.2
+minisom
+statistics
+metric-learn
+seaborn
+common-datasets
+future-fstrings
+imblearn

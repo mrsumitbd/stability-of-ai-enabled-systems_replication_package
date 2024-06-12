@@ -1,0 +1,4 @@
+numpy>=1.11,<1.19.2
+pandas>=0.20
+pydocstyle
+tqdm>=4.46

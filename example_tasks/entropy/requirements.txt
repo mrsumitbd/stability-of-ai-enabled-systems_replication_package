@@ -1,0 +1,6 @@
+numpy
+scipy
+scikit-learn
+numba
+stochastic
+pandas<2.0.0

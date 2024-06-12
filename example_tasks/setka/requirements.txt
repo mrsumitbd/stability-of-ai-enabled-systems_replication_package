@@ -1,0 +1,16 @@
+torch
+torchvision
+numpy
+future
+tensorboard>=1.14
+tqdm
+matplotlib
+scikit-image
+scikit-learn
+termcolor
+pandas
+efficientnet_pytorch
+imgaug
+pytest
+pytest-cov
+jsonlines
