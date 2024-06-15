@@ -1,0 +1,4 @@
+Processing_Time,pct_change,p-value,delta_val,delta_size
+1.032,11.087190527448868,5.173114645969943e-18,0.0,negligible
+0.929,0.0,1.0,-0.998,large
+0.958,3.121636167922488,1.33479028180675e-07,-0.6016,large
