@@ -3,15 +3,9 @@ import numpy as np
 from scipy import stats
 import warnings
 warnings.filterwarnings("ignore")
-# module_path = os.path.abspath(os.path.join('..', 'src'))
-# if module_path not in sys.path:
-#     sys.path.append(module_path)
 from utility import *
 
 def project_wise_analysis(proj_df, config_var, metric):
-    # print("\n")
-    # print(proj_df['Project'].unique()[0])
-    # print("\n")
     ### OS
 
     if config_var.lower() == 'os':
@@ -42,6 +36,8 @@ def project_wise_analysis(proj_df, config_var, metric):
         comp_df_OS['delta_size'] = [extract_cliffs_delta(sub_df_os.loc[sub_df_os['OS'] == 'Linux-Xenial'][metric], sub_df_os.loc[sub_df_os['OS'] == 'Linux-Xenial'][metric])[1],
                                    extract_cliffs_delta(sub_df_os.loc[sub_df_os['OS'] == 'Linux-Xenial'][metric], sub_df_os.loc[sub_df_os['OS'] == 'MacOS'][metric])[1],
                                    extract_cliffs_delta(sub_df_os.loc[sub_df_os['OS'] == 'Linux-Xenial'][metric], sub_df_os.loc[sub_df_os['OS'] == 'Windows'][metric])[1]]
+        comp_df_OS.to_csv(f"../post_analysis_report/significance_report/{proj_df['Project'].unique()[0]}_{config_var}_{metric}.csv", index=False)
+        #print(comp_df_OS)
         return comp_df_OS
 
     ### Dist
@@ -75,6 +71,8 @@ def project_wise_analysis(proj_df, config_var, metric):
                                    extract_cliffs_delta(sub_df_dist.loc[sub_df_dist['OS'] == 'Linux-Xenial'][metric], sub_df_dist.loc[sub_df_dist['OS'] == 'Linux-Bionic'][metric])[1],
                                    extract_cliffs_delta(sub_df_dist.loc[sub_df_dist['OS'] == 'Linux-Xenial'][metric], sub_df_dist.loc[sub_df_dist['OS'] == 'Linux-Focal'][metric])[1]]
 
+        comp_df_dist.to_csv(f"../post_analysis_report/significance_report/{proj_df['Project'].unique()[0]}_{config_var}_{metric}.csv", index=False)
+        #print(comp_df_dist)
         return comp_df_dist
 
 
@@ -101,6 +99,8 @@ def project_wise_analysis(proj_df, config_var, metric):
 
         comp_df_hw['delta_size'] = [extract_cliffs_delta(sub_df_hw.loc[sub_df_hw['Hardware'] == 'amd64'][metric], sub_df_hw.loc[sub_df_hw['Hardware'] == 'amd64'][metric])[1],
                                    extract_cliffs_delta(sub_df_hw.loc[sub_df_hw['Hardware'] == 'amd64'][metric], sub_df_hw.loc[sub_df_hw['Hardware'] == 'arm64'][metric])[1]]
+        comp_df_hw.to_csv(f"../post_analysis_report/significance_report/{proj_df['Project'].unique()[0]}_{config_var}_{metric}.csv", index=False)
+        #print(comp_df_hw)
         return comp_df_hw
 
     ### Python Versions
@@ -134,6 +134,8 @@ def project_wise_analysis(proj_df, config_var, metric):
         comp_df_py['delta_size'] = [extract_cliffs_delta(sub_df_py.loc[sub_df_py['Python'] == '3.7'][metric], sub_df_py.loc[sub_df_py['Python'] == '3.7'][metric])[1],
                                    extract_cliffs_delta(sub_df_py.loc[sub_df_py['Python'] == '3.7'][metric], sub_df_py.loc[sub_df_py['Python'] == '3.6'][metric])[1],
                                    extract_cliffs_delta(sub_df_py.loc[sub_df_py['Python'] == '3.7'][metric], sub_df_py.loc[sub_df_py['Python'] == '3.8'][metric])[1]]
+        comp_df_py.to_csv(f"../post_analysis_report/significance_report/{proj_df['Project'].unique()[0]}_{config_var}_{metric}.csv", index=False)
+        #print(comp_df_py)
         return comp_df_py
 
     else:
@@ -340,22 +342,22 @@ def generate_report_df(full_df):
                                 ])
 
     pd.DataFrame(df_row_list, columns=['Project', 'Metric', 'os_mac', 'os_windows', 'dist_bionic', 'dist_focal',
-                                       'hw_arm64', 'py_3_6', 'py_3_8']).to_csv('analysis_report/analysis_report.csv')
+                                       'hw_arm64', 'py_3_6', 'py_3_8']).to_csv('../post_analysis_report/analysis_report.csv')
 
 if __name__ == '__main__':
-    # following code combines all projects into one dataframe
+    # following code combines all projects from the ../data folder into one dataframe for analysis
     df_list = []
-    data_folder_path = 'data'
     for file in list_files(data_folder_path, all=False, extension='csv'):
-        tmp_df = pd.read_csv(f'{data_folder_path}/{file}')
+        tmp_df = pd.read_csv(f'../data/{file}')
         df_list.append(tmp_df)
     df = pd.concat(df_list, ignore_index=True)
 
-    df['Python'] = df['Python'].astype(str)
+    df['Python'] = df['Python'].astype(str) # converting Python versions from float to str
 
-    df = add_credits(df)
+    df = add_credits(df) # adding number of credits spent per run per project based on the processing time
 
-    df.to_csv('../full_df.csv')
+#    df.to_csv('../full_df.csv')
+    
     print("Generating report for OS:")
 
     print("\nwith respect to Score:")
